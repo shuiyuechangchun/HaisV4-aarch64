@@ -19,8 +19,14 @@ echo.请将手机进入fastboot,工具会自动开始刷入
 echo.
 echo.进入后如无响应请前往Q群'927251103'共享寻找驱动安装后重启手机于工具重新开始。
 echo.
-META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || echo Missmatching image and device
+META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || echo 机型不匹配,禁止刷入
 META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || exit /B 1
+if exist system.new.dat.brx (
+	if not exist firmware-update\super.img (
+		echo.线刷文件正在准备中...
+		META-INF\brx -D system.transfer.list -d system.new.dat.brx -o firmware-update\super.img
+	)
+)
 if "%CHOICE%" == "N" (
 	echo.用户数据正在清除中...
 	META-INF\fastboot %* erase userdata  >NUL 2>NUL
@@ -31,6 +37,12 @@ if "%CHOICE%" == "N" (
 	echo.
 )
 META-INF\fastboot %* set_active a 
+echo.
+echo.
+echo.  刷机过程请耐心等待,完成后会有中文提示。
+echo.
+echo.
+META-INF\fastboot %* flash super firmware-update\super.img
 echo.
 echo.
 echo.  恭喜您刷机完成，系统正在重启，如无响应可手动重启。
