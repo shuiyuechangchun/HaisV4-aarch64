@@ -21,12 +21,6 @@ echo.½øÈëºóÈçÎŞÏìÓ¦ÇëÇ°ÍùQÈº'927251103'¹²ÏíÑ°ÕÒÇı¶¯°²×°ºóÖØÆôÊÖ»úÓÚ¹¤¾ßÖØĞÂ¿ªÊ¼¡
 echo.
 META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || echo »úĞÍ²»Æ¥Åä,½ûÖ¹Ë¢Èë
 META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || exit /B 1
-if exist system.new.dat.brx (
-	if not exist firmware-update\super.img (
-		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
-		META-INF\brx -D system.transfer.list -d system.new.dat.brx -o firmware-update\super.img
-	)
-)
 if "%CHOICE%" == "N" (
 	echo.ÓÃ»§Êı¾İÕıÔÚÇå³ıÖĞ...
 	META-INF\fastboot %* erase userdata  >NUL 2>NUL
@@ -42,7 +36,44 @@ echo.
 echo.  Ë¢»ú¹ı³ÌÇëÄÍĞÄµÈ´ı,Íê³Éºó»áÓĞÖĞÎÄÌáÊ¾¡£
 echo.
 echo.
-META-INF\fastboot %* flash super firmware-update\super.img
+if exist super.new.dat.brx (
+	if not exist firmware-update\super.img (
+		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
+		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super.img
+	)
+	META-INF\fastboot %* flash super firmware-update\super.img
+)
+if exist system.new.dat.brx (
+	if not exist firmware-update\system.img (
+		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
+		META-INF\brx -D brx.transfer.list -d system.new.dat.brx -o firmware-update\system.img
+	)
+	META-INF\fastboot %* flash system firmware-update\system.img
+)
+if exist vendor.new.dat.brx (
+	if not exist firmware-update\vendor.img (
+		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
+		META-INF\brx -D brx.transfer.list -d vendor.new.dat.brx -o firmware-update\vendor.img
+	)
+	META-INF\fastboot %* flash vendor firmware-update\vendor.img
+)
+if exist system_ext.new.dat.brx (
+	if not exist firmware-update\system_ext.img (
+		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
+		META-INF\brx -D brx.transfer.list -d system_ext.new.dat.brx -o firmware-update\system_ext.img
+	)
+	META-INF\fastboot %* flash system_ext firmware-update\system_ext.img
+)
+if exist vendor.new.dat.brx (
+	if not exist firmware-update\vendor.img (
+		echo.ÏßË¢ÎÄ¼şÕıÔÚ×¼±¸ÖĞ...
+		META-INF\brx -D brx.transfer.list -d vendor.new.dat.brx -o firmware-update\vendor.img
+	)
+	META-INF\fastboot %* flash vendor firmware-update\vendor.img
+)
+
+
+
 echo.
 echo.
 echo.  ¹§Ï²ÄúË¢»úÍê³É£¬ÏµÍ³ÕıÔÚÖØÆô£¬ÈçÎŞÏìÓ¦¿ÉÊÖ¶¯ÖØÆô¡£
