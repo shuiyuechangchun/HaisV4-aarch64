@@ -7,10 +7,12 @@ echo.  1、刷机有风险、刷入前请备份好数据，做好变砖准备。
 echo.  2、此包未经测试，刷入出现任何问题自己负责。
 echo.  3、刷入请先【解锁】进入Fastboot模式后打开此脚本。
 echo.  4、刷入失败请检查USB、驱动、手机是否正常。
+echo.  5、开机卡一屏可等10分钟,不开机可尝试格式化data后重刷。
+echo.  6、刷入前请保持当前目录无空格,剩余大小大于20G,否则可能刷入失败。
 echo.
 echo.***********************************************
 echo.
-echo.  Y=保留数据刷入(默认)           N=清空所有数据刷入(必须要大写)
+echo.  Y=保留数据刷入(默认)           N=清空数据刷入(大写,推荐手动格式化data后再刷入)
 echo.
 set /p CHOICE=您的选择：
 cd %~dp0
@@ -39,7 +41,9 @@ echo.
 if exist super.new.dat.brx (
 	if not exist firmware-update\super.img (
 		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super.img
+		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super_raw.img
+		META-INF\img2simg firmware-update\super_raw.img firmware-update\super.img
+		del firmware-update\super_raw.img
 	)
 	META-INF\fastboot %* flash super firmware-update\super.img
 )
