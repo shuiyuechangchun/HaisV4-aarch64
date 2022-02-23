@@ -8,11 +8,11 @@ echo.  2、此包未经测试，刷入出现任何问题自己负责。
 echo.  3、刷入请先【解锁】进入Fastboot模式后打开此脚本。
 echo.  4、刷入失败请检查USB、驱动、手机是否正常。
 echo.  5、开机卡一屏可等10分钟,不开机可尝试格式化data后重刷。
-echo.  6、刷入前请保持当前目录无空格,剩余大小大于20G,否则可能刷入失败。
+echo.  6、刷入前请保持当前目录无空格,剩余大小大于10G,否则可能刷入失败。
 echo.
 echo.***********************************************
 echo.
-echo.  Y=保留数据刷入(默认)           N=清空数据刷入(大写,推荐手动格式化data后再刷入)
+echo.  Y=保留数据刷入(默认)           N=双清刷入(大写,推荐手动格式化data后再刷)
 echo.
 set /p CHOICE=您的选择：
 cd %~dp0
@@ -21,30 +21,26 @@ echo.请将手机进入fastboot,工具会自动开始刷入
 echo.
 echo.进入后如无响应请前往Q群'927251103'共享寻找驱动安装后重启手机于工具重新开始。
 echo.
-META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || echo 机型不匹配,禁止刷入
-META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || exit /B 1
-if "%CHOICE%" == "N" (
-	echo.用户数据正在清除中...
-	META-INF\fastboot %* erase userdata  >NUL 2>NUL
-	META-INF\fastboot %* erase secdata  >NUL 2>NUL
-	META-INF\fastboot %* erase metadata  >NUL 2>NUL
-	META-INF\fastboot %* erase exaid  >NUL 2>NUL
-	META-INF\fastboot -w  >NUL 2>NUL
-	echo.
+META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || (
+	echo.机型不匹配,禁止刷入
+	pause
+	exit /B 1
 )
 META-INF\fastboot %* set_active a 
 echo.
 echo.
-echo.  刷机过程请耐心等待,完成后会有中文提示。
+echo.   刷机过程请耐心等待,中途不要退出,完成后会有中文提示
+echo.  请忽视'Invalid sparse file format at header magic'提示
 echo.
 echo.
 if exist super.new.dat.brx (
 	if not exist firmware-update\super.img (
-		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super_raw.img
-		META-INF\img2simg firmware-update\super_raw.img firmware-update\super.img
-		del firmware-update\super_raw.img
+		echo.正在解压中,硬盘剩余小于10G将会失败...
+		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super.img
 	)
+	META-INF\fastboot %* erase super  >NUL 2>NUL
+	ping -n 5 127.0.0.1 >nul 2>nul
+	echo.系统正在刷入中,请不要中途退出,完成后会有中文提示。
 	META-INF\fastboot %* flash super firmware-update\super.img
 )
 if exist system.new.dat.brx (
@@ -78,6 +74,15 @@ if exist vendor.new.dat.brx (
 
 
 
+if "%CHOICE%" == "N" (
+	echo.用户数据正在清除中...
+	META-INF\fastboot %* erase userdata  >NUL 2>NUL
+	META-INF\fastboot %* erase secdata  >NUL 2>NUL
+	META-INF\fastboot %* erase metadata  >NUL 2>NUL
+	META-INF\fastboot %* erase exaid  >NUL 2>NUL
+	META-INF\fastboot -w  >NUL 2>NUL
+	echo.
+)
 echo.
 echo.
 echo.  恭喜您刷机完成，系统正在重启，如无响应可手动重启。
