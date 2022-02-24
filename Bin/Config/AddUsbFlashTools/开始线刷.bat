@@ -36,7 +36,7 @@ echo.
 if exist super.new.dat.brx (
 	if not exist firmware-update\super.img (
 		echo.正在解压中,硬盘剩余小于10G将会失败...
-		META-INF\brx -D brx.transfer.list -d super.new.dat.brx -o firmware-update\super.img
+		META-INF\brx -d super.new.dat.brx -o firmware-update\super.img
 	)
 	META-INF\fastboot %* erase super  >NUL 2>NUL
 	ping -n 5 127.0.0.1 >nul 2>nul
@@ -46,28 +46,28 @@ if exist super.new.dat.brx (
 if exist system.new.dat.brx (
 	if not exist firmware-update\system.img (
 		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d system.new.dat.brx -o firmware-update\system.img
+		META-INF\brx -d system.new.dat.brx -o firmware-update\system.img
 	)
 	META-INF\fastboot %* flash system firmware-update\system.img
 )
 if exist vendor.new.dat.brx (
 	if not exist firmware-update\vendor.img (
 		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d vendor.new.dat.brx -o firmware-update\vendor.img
+		META-INF\brx -d vendor.new.dat.brx -o firmware-update\vendor.img
 	)
 	META-INF\fastboot %* flash vendor firmware-update\vendor.img
 )
 if exist system_ext.new.dat.brx (
 	if not exist firmware-update\system_ext.img (
 		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d system_ext.new.dat.brx -o firmware-update\system_ext.img
+		META-INF\brx -d system_ext.new.dat.brx -o firmware-update\system_ext.img
 	)
 	META-INF\fastboot %* flash system_ext firmware-update\system_ext.img
 )
 if exist vendor.new.dat.brx (
 	if not exist firmware-update\vendor.img (
 		echo.线刷文件正在准备中...
-		META-INF\brx -D brx.transfer.list -d vendor.new.dat.brx -o firmware-update\vendor.img
+		META-INF\brx -d vendor.new.dat.brx -o firmware-update\vendor.img
 	)
 	META-INF\fastboot %* flash vendor firmware-update\vendor.img
 )
