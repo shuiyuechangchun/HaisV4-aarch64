@@ -22,10 +22,10 @@ echo.
 echo.进入后如无响应请前往Q群'927251103'共享寻找驱动安装后重启手机于工具重新开始。
 echo.
 META-INF\fastboot %* getvar product 2>&1 | findstr /r /c:"^product: *HaisDevice" || (
-	echo.机型不匹配,禁止刷入
-	pause
-	exit /B 1
-)
+	echo.当前机型不是HaisDevice，不型不匹配,禁止刷入
+	pause		%HaisDevice%
+	exit /B 1	%HaisDevice%
+)	%HaisDevice%
 META-INF\fastboot %* set_active a 
 echo.
 echo.
