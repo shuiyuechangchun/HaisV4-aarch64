@@ -1,0 +1,19 @@
+FILE="/system/system/build.prop"			#文件路径+名称
+
+#字符串替换，请二选一，不要同时开启
+#DEFAULT_CODE='.method private  checkSystemSelfProtection(Z)V'
+
+
+#要替换的内容
+REPLACE_CODE='
+.method private  checkSystemSelfProtection(Z)V
+    .locals 1
+
+    return-void
+.end method
+'
+
+
+
+
+
