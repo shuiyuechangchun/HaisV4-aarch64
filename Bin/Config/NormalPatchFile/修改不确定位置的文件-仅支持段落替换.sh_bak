@@ -1,4 +1,4 @@
-FILE_PATH="/system/system/"					#与上面方式二选一，在此路径下搜索包含FIND_START内容的文件进行更改(仅更改1次)
+FILE_PATH="/system/system"					#后面不要带斜杠 在此路径下搜索包含FIND_START内容的文件进行更改(仅更改1次)
 
 #段落替换,仅支持段落替换
 FIND_START='.method private checkSystemSelfProtection(Z)V'								#解压后要查找的开始代码
