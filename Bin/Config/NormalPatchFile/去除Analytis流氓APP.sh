@@ -13,5 +13,5 @@ service delapp /system/bin/sh -c "rm -rf /data/data/com.xiaomi.market/app_analyt
     disabled
 
 on property:sys.boot_completed=1
-    start delap
+    start delapp
 '
