@@ -1,0 +1,11 @@
+
+# kernel string want_initramfs -> skip_initramfs (Magisk)
+./magiskboot hexpatch kernel 77616E745F696E697472616D6673 736B69705F696E697472616D6673;
+# kernel string trip_initramfs -> skip_initramfs (SuperSU)
+./magiskboot hexpatch kernel 747269705F696E697472616D6673 736B69705F696E697472616D6673;
+
+# boot.img header cmdline remove skip_override (flar2 patch)
+if [ -f header ] ;then
+	echo '处理Header'
+	sed -i "s|$(grep '^cmdline=' header | cut -d= -f2-)|$(grep '^cmdline=' header | cut -d= -f2- | sed -e 's/skip_override//' -e 's/  */ /g' -e 's/[ \t]*$//')|" header;
+fi
