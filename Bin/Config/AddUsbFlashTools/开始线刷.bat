@@ -12,7 +12,7 @@ echo.  6、刷入前请保持当前目录无空格,剩余大小大于10G,否则可能刷入失败。
 echo.
 echo.***********************************************
 echo.
-echo.  Y=保留数据刷入(默认)           N=双清刷入(大写,推荐手动格式化data后再刷)
+echo.  Y=保留数据刷入(默认)           N=双清刷入(推荐手动格式化data后再刷)
 echo.
 set /p CHOICE=您的选择：
 cd %~dp0
@@ -74,7 +74,7 @@ if exist vendor.new.dat.brx (
 
 
 
-if "%CHOICE%" == "N" (
+if /I "%CHOICE%" == "N" (
 	echo.用户数据正在清除中...
 	META-INF\fastboot %* erase userdata  >NUL 2>NUL
 	META-INF\fastboot %* erase secdata  >NUL 2>NUL
@@ -88,6 +88,7 @@ echo.
 echo.  恭喜您刷机完成，系统正在重启，如无响应可手动重启。
 echo.
 META-INF\fastboot %* set_active a 
+META-INF\fastboot oem cdms >NUL 2>NUL
 META-INF\fastboot %* reboot 
 echo.***********************************************
 echo.

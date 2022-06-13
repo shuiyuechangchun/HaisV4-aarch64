@@ -3,7 +3,7 @@ SHELL=$(readlink -f "$0")			#脚本文件
 SHELL_PATH=$(dirname $SHELL)		#脚本路径
 PROJECT=${1}						#项目路径
 if [[ $(uname -m) != "aarch64" ]]; then su="sudo ";fi;
-getProp() { grep "$1" "${PROJECT}/system/system/build.prop" | cut -d "=" -f 2; }
+getProp() { grep "$1" "${PROJECT}/system/system/build.prop" | head -1 | cut -d "=" -f 2; }
 
 AndroidApi=$(getProp 'ro.build.version.sdk')
 
