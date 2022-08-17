@@ -80,8 +80,8 @@ if /I "%CHOICE%" == "N" (
 	META-INF\fastboot %* erase secdata  >NUL 2>NUL
 	META-INF\fastboot %* erase metadata  >NUL 2>NUL
 	META-INF\fastboot %* erase exaid  >NUL 2>NUL
-	META-INF\fastboot format userdata >NUL 2>NUL
-	META-INF\fastboot format metadata >NUL 2>NUL
+::	META-INF\fastboot format userdata >NUL 2>NUL
+::	META-INF\fastboot format metadata >NUL 2>NUL
 	echo.
 )
 echo.
